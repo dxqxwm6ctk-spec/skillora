@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Skillora | تبادل المهارات بين الطلاب</title>
+  <meta name="description" content="Skillora منصة طلابية لتبادل المهارات والتعلم بين الطلبة.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='24' fill='%236c5ce7'/><text x='50' y='70' font-size='54' text-anchor='middle'>⚡</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- ================= NAV ================= -->
+  <header class="nav" id="top">
+    <div class="container nav-inner">
+      <a href="#home" class="logo">
+        <span class="logo-mark">⚡</span>
+        <span class="logo-text">Skill<em>ora</em></span>
+      </a>
+      <div class="nav-search" id="navSearch">
+        <svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path></svg>
+        <input id="globalSearch" type="search" placeholder="ابحث عن مهارة أو طالب..." aria-label="بحث عام">
+        <div class="nav-search-results" id="globalSearchResults" hidden></div>
+      </div>
+      <nav class="nav-links" id="navLinks">
+        <a href="#home">الرئيسية</a>
+        <a href="#how">كيف تعمل</a>
+        <a href="#skills">المهارات</a>
+        <a href="#students">الطلاب</a>
+        <a href="#sessions">الجلسات</a>
+        <button class="nav-text-btn" type="button" data-open-app>لوحة الطالب</button>
+      </nav>
+      <button type="button" class="btn btn-primary btn-sm" data-open-auth="signup">سجّل الآن</button>
+      <button class="nav-toggle" id="navToggle" aria-label="القائمة">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <!-- ================= HERO ================= -->
+    <section class="hero" id="home">
+      <div class="hero-blob b1"></div>
+      <div class="hero-blob b2"></div>
+      <div class="container hero-inner">
+        <div class="hero-badge reveal">منصّة تبادل المهارات الطلابية</div>
+        <h1 class="reveal">تعلّم بيد شخص، <span class="grad-text">وعلّم غيرك</span> بيدك</h1>
+        <p class="hero-sub reveal">Skillora يجمع الطلاب ذوي المهارات المختلفة، ويتيح لهم تبادل المعرفة في جلسات بسيطة وعادلة. علّم ما تتقنه وتعلّم ما يهمك.</p>
+        <div class="hero-cta reveal">
+          <button type="button" class="btn btn-primary btn-lg" data-open-app>ابدأ تبادل مهاراتك</button>
+          <a href="#skills" class="btn btn-ghost btn-lg">شوف المهارات المتاحة</a>
+        </div>
+        <div class="hero-chips reveal">
+          <span>💻 البرمجة</span>
+          <span>🎨 التصميم</span>
+          <span>🤖 الذكاء الاصطناعي</span>
+          <span>🎸 الموسيقى</span>
+          <span>🌍 اللغات</span>
+          <span>📷 التصوير</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= STATS ================= -->
+    <section class="stats">
+      <div class="container stats-grid">
+        <div class="stat reveal">
+          <strong data-count="1200">0</strong><span>+</span>
+          <p>جلسة تعلم منجزة</p>
+        </div>
+        <div class="stat reveal">
+          <strong data-count="45">0</strong><span>+</span>
+          <p>مهارة متبادلة</p>
+        </div>
+        <div class="stat reveal">
+          <strong data-count="2800">0</strong><span>+</span>
+          <p>طالب نشط</p>
+        </div>
+        <div class="stat reveal">
+          <strong data-count="4.9">0</strong>
+          <p>متوسط تقييم</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= HOW IT WORKS ================= -->
+    <section class="section" id="how">
+      <div class="container">
+        <div class="section-head reveal">
+          <span class="eyebrow">كيف تعمل</span>
+          <h2>تعلم بالتشارك، مش بالتعليم</h2>
+          <p>مفيش حد شغال معاك من غير ما تحب. هنا المهارات والمحترفين بيتبادلوا، وجميع التعليم بييجي من الطرفين.</p>
+        </div>
+        <div class="steps">
+          <article class="step reveal">
+            <div class="step-num">01</div>
+            <div class="step-icon">🔍</div>
+            <h3>حدّ المهارة اللي بدك تتعلمها</h3>
+            <p>افتح قائمة المهارات المتاحة أو حدد اللي بتعرفه لو بدك تبادل مهارتك. كل المهارات مسجلة ومُصنفة.</p>
+          </article>
+          <article class="step reveal">
+            <div class="step-num">02</div>
+            <div class="step-icon">🤝</div>
+            <h3>اعرض مهارتك</h3>
+            <p>سجّل المهارة اللي بتعرفها على ملفك الشخصي. هتظهر للطلاب اللي عايزين يتعلموا.</p>
+          </article>
+          <article class="step reveal">
+            <div class="step-num">03</div>
+            <div class="step-icon">🎓</div>
+            <h3>تعلموا سواً</h3>
+            <p>اختار جلستك مع طالب تاني، وحضّر بيدك. تتعلم مهارة جديدة، وعلّمه مهاراتك.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= SKILLS ================= -->
+    <section class="section section-alt" id="skills">
+      <div class="container">
+        <div class="section-head reveal">
+          <span class="eyebrow">المهارات</span>
+          <h2>شوف ماذا تتعلمه</h2>
+          <p>كل مهارة عندها قائمة طلاب بيدوروا على معلمهم. اكتب اسم المهارة وسيفتح لك كل شيء.</p>
+          <div class="search-box reveal">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path></svg>
+            <input id="skillSearch" type="text" placeholder="ابحث عن مهارة... مثل: React، تصميم، جيتار...">
+            <span id="searchCount" class="search-count">0 نتيجة</span>
+          </div>
+          <div class="chips reveal">
+            <button class="chip active" data-filter="all">✨ الكل</button>
+            <button class="chip" data-filter="برمجة">💻 البرمجة</button>
+            <button class="chip" data-filter="تصميم">🎨 التصميم</button>
+            <button class="chip" data-filter="ذكاء">🤖 الذكاء الاصطناعي</button>
+            <button class="chip" data-filter="موسيقى">🎸 الموسيقى</button>
+            <button class="chip" data-filter="لغات">🌍 اللغات</button>
+            <button class="chip" data-filter="تصوير">📷 التصوير</button>
+            <button class="chip" data-filter="رياضيات">➗ الرياضيات</button>
+            <button class="chip" data-filter="حياة">🍳 حياة ومهارات</button>
+            <button class="chip" data-filter="صحة">🧘 الصحة</button>
+            <button class="chip" data-filter="أمن">🔐 الأمن السيبراني</button>
+            <button class="chip" data-filter="بيانات">📊 البيانات</button>
+            <button class="chip" data-filter="كتابة">✍️ الكتابة</button>
+            <button class="chip" data-filter="محتوى">🎬 المحتوى</button>
+            <button class="chip" data-filter="استراتيجية">♟️ الاستراتيجية</button>
+          </div>
+        </div>
+        <div class="skills-grid" id="skillsGrid">
+          <article class="skill-card reveal" data-category="برمجة" data-search="برمجة html css javascript react node تطبيقات برمجية كامل">
+            <div class="skill-icon">💻</div>
+            <h3>البرمجة والتقنية</h3>
+            <p>من HTML و CSS و JavaScript و React و Node.js، بنحوّل أفكارك لمواقع وتطبيقات حقيقية.</p>
+            <div class="tags"><span>HTML</span><span>CSS</span><span>JavaScript</span><span>React</span><span>Node.js</span></div>
+            <div class="skill-meta"><span>🔁 240 طالب</span><span>المبتدئين أكثر</span></div>
+          </article>
+          <article class="skill-card reveal" data-category="تصميم" data-search="تصميم figma photoshop ui ux design">
+            <div class="skill-icon">🎨</div>
+            <h3>التصميم</h3>
+            <p>UI/UX وتصميم الجرافيك وبناء الهوية البصرية لمشاريعك.</p>
+            <div class="tags"><span>Figma</span><span>Photoshop</span><span>Illustrator</span><span>UI/UX</span></div>
+            <div class="skill-meta"><span>🔁 180 طالب</span><span>المبتدئين أكثر</span></div>
+          </article>
+          <article class="skill-card reveal" data-category="ذكاء" data-search="ذكاء اصطناعي machine learning python data science">
+            <div class="skill-icon">🤖</div>
+            <h3>الذكاء الاصطناعي</h3>
+            <p>Machine Learning و Data Science وبناء نماذج ذكية للمنتجات.</p>
+            <div class="tags"><span>Python</span><span>ML</span><span>Data Science</span><span>ChatGPT</span></div>
+            <div class="skill-meta"><span>🔁 150 طالب</span><span>المبتدئين أكثر</span></div>
+          </article>
+          <article class="skill-card reveal" data-category="موسيقى" data-search="موسيقى جيتار غناء piano music theory">
+            <div class="skill-icon">🎸</div>
+            <h3>الموسيقى</h3>
+            <p>جيتار وغناء وبناء أساسيات العزف والموسيقى بشكل عام.</p>
+            <div class="tags"><span>Guitar</span><span>Piano</span><span>Vocal</span><span>Theory</span></div>
+            <div class="skill-meta"><span>🔁 95 طالب</span><span>المبتدئين أكثر</span></div>
+          </article>
+          <article class="skill-card reveal" data-category="لغات" data-search="لغات انجليزي فرنساوي الياباني تعلم">
+            <div class="skill-icon">🌍</div>
+            <h3>اللغات</h3>
+            <p>إنجليزي وفرنساوي وماندرين وغيرهم، مع معلمين من مختلف الثقافات.</p>
+            <div class="tags"><span>English</span><span>French</span><span>Japanese</span><span>Arabic</span></div>
+            <div class="skill-meta"><span>🔁 320 طالب</span><span>المبتدئين أكثر</span></div>
+          </article>
+          <article class="skill-card reveal" data-category="تصوير" data-search="تصوير فوتوغرافي صور فيديو editing">
+            <div class="skill-icon">📷</div>
+            <h3>التصوير</h3>
+            <p>تصوير الصور والفيديو والتحرير الرقمي وإضاءة الصور.</p>
+            <div class="tags"><span>Photography</span><span>Videography</span><span>Lightroom</span></div>
+            <div class="skill-meta"><span>🔁 110 طالب</span><span>المبتدئين أكثر</span></div>
+          </article>
+          <article class="skill-card reveal" data-category="رياضيات" data-search="رياضيات calculus statistics math">
+            <div class="skill-icon">➗</div>
+            <h3>الرياضيات</h3>
+            <p>Calculus و Statistics ورياضيات مدمجة للجامعات.</p>
+            <div class="tags"><span>Calculus</span><span>Statistics</span><span>Linear Algebra</span></div>
+            <div class="skill-meta"><span>🔁 85 طالب</span><span>المبتدئين أكثر</span></div>
+          </article>
+          <article class="skill-card reveal" data-category="حياة" data-search="cooking chess مهارات حياتية">
+            <div class="skill-icon">🍳</div>
+            <h3>حياة ومهارات</h3>
+            <p>طبخ وشطرنج ومهارات يومية بتطوّر العقل والتركيز.</p>
+            <div class="tags"><span>Cooking</span><span>Chess</span><span>Public Speaking</span></div>
+            <div class="skill-meta"><span>🔁 70 طالب</span><span>المبتدئين أكثر</span></div>
+          </article>
+          <article class="skill-card reveal" data-category="صحة" data-search="yoga meditation wellness صحة لياقة تنفس تأمل">
+            <div class="skill-icon">🧘</div>
+            <h3>الصحة والرفاهية</h3>
+            <p>يوغا وتمارين وتربية نفسية وعادات يومية للعقل والجسم.</p>
+            <div class="tags"><span>Yoga</span><span>Meditation</span><span>Wellness</span></div>
+            <div class="skill-meta"><span>🔁 65 طالب</span><span>المبتدئين أكثر</span></div>
+          </article>
+          <article class="skill-card reveal" data-category="أمن" data-search="أمن سيبراني cybersecurity ethical hacking امن برمجة">
+            <div class="skill-icon">🔐</div>
+            <h3>الأمن السيبراني</h3>
+            <p>تأمين المواقع والأنظمة وحماية البيانات من الهجمات.</p>
+            <div class="tags"><span>Cybersecurity</span><span>Ethical Hacking</span><span>Network</span></div>
+            <div class="skill-meta"><span>🔁 90 طالب</span><span>المبتدئين أكثر</span></div>
+          </article>
+          <article class="skill-card reveal" data-category="بيانات" data-search="بيانات تحليل excel power bi data analysis">
+            <div class="skill-icon">📊</div>
+            <h3>تحليل البيانات</h3>
+            <p>تحليل البيانات Excel و Power BI وبناء لوحات تحكم بصرية.</p>
+            <div class="tags"><span>Excel</span><span>Power BI</span><span>Data Analysis</span></div>
+            <div class="skill-meta"><span>🔁 140 طالب</span><span>المبتدئين أكثر</span></div>
+          </article>
+          <article class="skill-card reveal" data-category="كتابة" data-search="كتابة ابداع copywriting storytelling writing">
+            <div class="skill-icon">✍️</div>
+            <h3>الكتابة والإبداع</h3>
+            <p>كتابة المحتوى الإبداعي والتسويق بالكلمات وبناء القصص.</p>
+            <div class="tags"><span>Writing</span><span>Storytelling</span><span>Copywriting</span></div>
+            <div class="skill-meta"><span>🔁 75 طالب</span><span>المبتدئين أكثر</span></div>
+          </article>
+          <article class="skill-card reveal" data-category="محتوى" data-search="محتوى سينما فيلم screenwriting إخراج مونتاج">
+            <div class="skill-icon">🎬</div>
+            <h3>المحتوى الإعلامي</h3>
+            <p>صناعة الأفلام والتلفزيون ومونتاج المحتوى المرئي.</p>
+            <div class="tags"><span>Screenwriting</span><span>Filmmaking</span><span>Editing</span></div>
+            <div class="skill-meta"><span>🔁 55 طالب</span><span>المبتدئين أكثر</span></div>
+          </article>
+          <article class="skill-card reveal" data-category="استراتيجية" data-search="استراتيجية تفكير chess strategy logic">
+            <div class="skill-icon">♟️</div>
+            <h3>الاستراتيجية والتفكير</h3>
+            <p>شطرنج وتفكير استراتيجي وحل مشاكل معقدة.</p>
+            <div class="tags"><span>Chess</span><span>Strategy</span><span>Logic</span></div>
+            <div class="skill-meta"><span>🔁 80 طالب</span><span>المبتدئين أكثر</span></div>
+          </article>
+        </div>
+        <p id="noResult" class="no-result" hidden>لا توجد نتائج مطابقة. جرّب كلمة مختلفة!</p>
+      </div>
+    </section>
+
+    <!-- ================= STUDENTS ================= -->
+    <section class="section" id="students">
+      <div class="container">
+        <div class="section-head reveal">
+          <span class="eyebrow">طلابنا</span>
+          <h2>من طلابنا، تعلموا من بعض</h2>
+          <p>ناشطون على المنصة، وكل واحد فيهم عندو المهارة اللي يبيعلمها.</p>
+        </div>
+        <div class="students-grid">
+          <article class="student-card reveal">
+            <div class="student-top">
+              <div class="avatar avatar-1">س</div>
+              <div class="student-id">
+                <h3>سارة الأحمد</h3>
+                <p>مدرسة الهندسة</p>
+              </div>
+              <span class="rating">★ 4.9</span>
+            </div>
+            <p class="student-bio">مصمّمة UI/UX بتحب تحوّل أفكار معقولة لتصاميم بتشتغل. هدفها إن أي مبتدئ يتعلم يشتغل باحترافية من أول جلسة.</p>
+            <div class="tags"><span>UI/UX</span><span>Figma</span><span>Design</span></div>
+            <div class="student-foot">
+              <span>🔁 14 تبادل</span>
+              <span>📅 آخر جلسة: الأربعاء</span>
+            </div>
+          </article>
+          <article class="student-card reveal">
+            <div class="student-top">
+              <div class="avatar avatar-2">م</div>
+              <div class="student-id">
+                <h3>محمد الخليل</h3>
+                <p>كلية الطب</p>
+              </div>
+              <span class="rating">★ 5.0</span>
+            </div>
+            <p class="student-bio">باحث في الكيمياء الحيوية. عايز يتعلم تطوير المنتجات وبرمجة، وعلم الطلاب إياها.</p>
+            <div class="tags"><span>Biology</span><span>Chemistry</span><span>Research</span></div>
+            <div class="student-foot">
+              <span>🔁 9 تبادل</span>
+              <span>📅 آخر جلسة: الخميس</span>
+            </div>
+          </article>
+          <article class="student-card reveal">
+            <div class="student-top">
+              <div class="avatar avatar-3">ن</div>
+              <div class="student-id">
+                <h3>نور فهد</h3>
+                <p>جامعة الملك عبدالعزيز</p>
+              </div>
+              <span class="rating">★ 4.8</span>
+            </div>
+            <p class="student-bio">مهندسة Machine Learning. بتحب تعليم الناس بأسلوب ممتع ومبسّط.</p>
+            <div class="tags"><span>Machine Learning</span><span>Python</span><span>Data Science</span></div>
+            <div class="student-foot">
+              <span>🔁 21 تبادل</span>
+              <span>📅 آخر جلسة: السبت</span>
+            </div>
+          </article>
+          <article class="student-card reveal">
+            <div class="student-top">
+              <div class="avatar avatar-4">ي</div>
+              <div class="student-id">
+                <h3>يوسف البرو</h3>
+                <p>معهد التصوير</p>
+              </div>
+              <span class="rating">★ 4.9</span>
+            </div>
+            <p class="student-bio">فوتوغراف محترف بيدرس أساسيات التصوير للمبتدئين.</p>
+            <div class="tags"><span>Photography</span><span>Composition</span><span>Lightroom</span></div>
+            <div class="student-foot">
+              <span>🔁 11 تبادل</span>
+              <span>📅 آخر جلسة: الجمعة</span>
+            </div>
+          </article>
+          <article class="student-card reveal">
+            <div class="student-top">
+              <div class="avatar avatar-5">ل</div>
+              <div class="student-id">
+                <h3>لينا حنا</h3>
+                <p>جامعة الدول العربية</p>
+              </div>
+              <span class="rating">★ 5.0</span>
+            </div>
+            <p class="student-bio">معلمة لغة ومتدربة على البيانو، بتعلم العزف وتعلّم برامج التدريس.</p>
+            <div class="tags"><span>English</span><span>Teaching</span><span>Piano</span></div>
+            <div class="student-foot">
+              <span>🔁 17 تبادل</span>
+              <span>📅 آخر جلسة: الاثنين</span>
+            </div>
+          </article>
+          <article class="student-card reveal">
+            <div class="student-top">
+              <div class="avatar avatar-6">أ</div>
+              <div class="student-id">
+                <h3>أحمد رحيم</h3>
+                <p>معهد الموسيقى</p>
+              </div>
+              <span class="rating">★ 4.7</span>
+            </div>
+            <p class="student-bio">موسيقي جيتار بيدرس العزف على البيانو وآلات إضافية.</p>
+            <div class="tags"><span>Guitar</span><span>Music Theory</span><span>Bass</span></div>
+            <div class="student-foot">
+              <span>🔁 7 تبادل</span>
+              <span>📅 آخر جلسة: السبت</span>
+            </div>
+          </article>
+          <article class="student-card reveal">
+            <div class="student-top">
+              <div class="avatar avatar-7">ر</div>
+              <div class="student-id">
+                <h3>ريم عبدالله</h3>
+                <p>كلية الحقوق</p>
+              </div>
+              <span class="rating">★ 4.8</span>
+            </div>
+            <p class="student-bio">محامية بتحب تحلل القوانين وتبني حلول عملية. بتعلم مهارات التفكير القانوني والتخطيط للطلاب.</p>
+            <div class="tags"><span>القانون</span><span>التخطيط</span><span>التحليل</span></div>
+            <div class="student-foot">
+              <span>🔁 12 تبادل</span>
+              <span>📅 آخر جلسة: الثلاثاء</span>
+            </div>
+          </article>
+          <article class="student-card reveal">
+            <div class="student-top">
+              <div class="avatar avatar-8">ف</div>
+              <div class="student-id">
+                <h3>فارس ناصر</h3>
+                <p>معهد السينما</p>
+              </div>
+              <span class="rating">★ 4.8</span>
+            </div>
+            <p class="student-bio">مخرج أفلام صغير بيركز على المونتاج وكتابة السيناريو. بيحب يعلّم المبتدئين أساسيات الحكاية المرئية.</p>
+            <div class="tags"><span>Editing</span><span>Screenwriting</span><span>Filmmaking</span></div>
+            <div class="student-foot">
+              <span>🔁 8 تبادل</span>
+              <span>📅 آخر جلسة: الأحد</span>
+            </div>
+          </article>
+          <article class="student-card reveal">
+            <div class="student-top">
+              <div class="avatar avatar-9">م</div>
+              <div class="student-id">
+                <h3>ماجي الحوراني</h3>
+                <p>جامعة البيروتي</p>
+              </div>
+              <span class="rating">★ 4.9</span>
+            </div>
+            <p class="student-bio">باحثة بيانات بتشرح الإحصاء والتحليل بأسلوب بسيط. بتعلم الطلاب إزاي يقرأوا الأرقام ويتخذوا قرارات.</p>
+            <div class="tags"><span>Data Analysis</span><span>Excel</span><span>Statistics</span></div>
+            <div class="student-foot">
+              <span>🔁 16 تبادل</span>
+              <span>📅 آخر جلسة: الخميس</span>
+            </div>
+          </article>
+          <article class="student-card reveal">
+            <div class="student-top">
+              <div class="avatar avatar-10">ك</div>
+              <div class="student-id">
+                <h3>كريم زيدان</h3>
+                <p>معهد اللياقة</p>
+              </div>
+              <span class="rating">★ 4.7</span>
+            </div>
+            <p class="student-bio">مدرب لياقة وتغذية. بيعلّم عادات صحية بسيطة وتناسب جدول الطلاب الجامعي.</p>
+            <div class="tags"><span>Wellness</span><span>Nutrition</span><span>Fitness</span></div>
+            <div class="student-foot">
+              <span>🔁 6 تبادل</span>
+              <span>📅 آخر جلسة: السبت</span>
+            </div>
+          </article>
+          <article class="student-card reveal">
+            <div class="student-top">
+              <div class="avatar avatar-11">ي</div>
+              <div class="student-id">
+                <h3>يارا شحاتة</h3>
+                <p>كلية الإعلام</p>
+              </div>
+              <span class="rating">★ 4.9</span>
+            </div>
+            <p class="student-bio">كاتبة محتوى وباحثة في السرد الرقمي. بتعلّم الكتابة الإبداعية وصناعة المحتوى بطريقة عملية.</p>
+            <div class="tags"><span>Writing</span><span>Storytelling</span><span>Copywriting</span></div>
+            <div class="student-foot">
+              <span>🔁 13 تبادل</span>
+              <span>📅 آخر جلسة: الجمعة</span>
+            </div>
+          </article>
+          <article class="student-card reveal">
+            <div class="student-top">
+              <div class="avatar avatar-12">ت</div>
+              <div class="student-id">
+                <h3>تيسير حداد</h3>
+                <p>كلية الحاسوب</p>
+              </div>
+              <span class="rating">★ 4.8</span>
+            </div>
+            <p class="student-bio">خبير أمن سيبراني بيدرس أساسيات الحماية والشبكات للمبتدئين بطريقة عملية وآمنة.</p>
+            <div class="tags"><span>Cybersecurity</span><span>Network</span><span>Ethical Hacking</span></div>
+            <div class="student-foot">
+              <span>🔁 10 تبادل</span>
+              <span>📅 آخر جلسة: الاثنين</span>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= SESSIONS ================= -->
+    <section class="section section-dark" id="sessions">
+      <div class="container">
+        <div class="section-head reveal">
+          <span class="eyebrow eyebrow-light">الجلسات</span>
+          <h2>الجلسات القادمة</h2>
+          <p>جدول جلسات التبادل المباشرة — كل جلسة بتتعلم فيها مهارة جديدة.</p>
+        </div>
+        <div class="sessions-list">
+          <article class="session-card reveal">
+            <div class="session-date">
+              <strong>28</strong>
+              <span>نوفمبر</span>
+            </div>
+            <div class="session-info">
+              <h3>React للمبتدئين</h3>
+              <p>أستاذ: محمد الخليل — بتدريس React و JavaScript الأساسيات</p>
+            </div>
+            <span class="session-status status-upcoming">قادمة</span>
+          </article>
+          <article class="session-card reveal">
+            <div class="session-date">
+              <strong>30</strong>
+              <span>نوفمبر</span>
+            </div>
+            <div class="session-info">
+              <h3>UI/UX للمبتدئين</h3>
+              <p>أستاذة: سارة الأحمد — Figma و أساسيات التصميم</p>
+            </div>
+            <span class="session-status status-upcoming">قادمة</span>
+          </article>
+          <article class="session-card reveal">
+            <div class="session-date">
+              <strong>01</strong>
+              <span>ديسمبر</span>
+            </div>
+            <div class="session-info">
+              <h3>إنجليزي مكثف للمبتدئين</h3>
+              <p>أستاذة: لينا حنا — Speaking و Grammar</p>
+            </div>
+            <span class="session-status status-upcoming">قادمة</span>
+          </article>
+          <article class="session-card reveal">
+            <div class="session-date">
+              <strong>24</strong>
+              <span>نوفمبر</span>
+            </div>
+            <div class="session-info">
+              <h3>جيتار للمبتدئين</h3>
+              <p>أستاذ: أحمد رحيم — Guitar Basics</p>
+            </div>
+            <span class="session-status status-done">منجزة</span>
+          </article>
+          <article class="session-card reveal">
+            <div class="session-date">
+              <strong>03</strong>
+              <span>ديسمبر</span>
+            </div>
+            <div class="session-info">
+              <h3>Python للمبتدئين</h3>
+              <p>أستاذة: نور فهد — Python و Data Science الأساسيات</p>
+            </div>
+            <span class="session-status status-upcoming">قادمة</span>
+          </article>
+          <article class="session-card reveal">
+            <div class="session-date">
+              <strong>05</strong>
+              <span>ديسمبر</span>
+            </div>
+            <div class="session-info">
+              <h3>الكتابة الإبداعية</h3>
+              <p>أستاذة: يارا شحاتة — Writing و Storytelling</p>
+            </div>
+            <span class="session-status status-upcoming">قادمة</span>
+          </article>
+          <article class="session-card reveal">
+            <div class="session-date">
+              <strong>06</strong>
+              <span>ديسمبر</span>
+            </div>
+            <div class="session-info">
+              <h3>الأمن السيبراني للمبتدئين</h3>
+              <p>أستاذ: تيسير حداد — Cybersecurity وحماية الحسابات</p>
+            </div>
+            <span class="session-status status-upcoming">قادمة</span>
+          </article>
+          <article class="session-card reveal">
+            <div class="session-date">
+              <strong>07</strong>
+              <span>ديسمبر</span>
+            </div>
+            <div class="session-info">
+              <h3>الرفاهية واليوغا</h3>
+              <p>أستاذ: كريم زيدان — Wellness وعادات يومية بسيطة</p>
+            </div>
+            <span class="session-status status-upcoming">قادمة</span>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= STORIES ================= -->
+    <section class="section" id="stories">
+      <div class="container">
+        <div class="section-head reveal">
+          <span class="eyebrow">قصص نجاح</span>
+          <h2>طلاب علّموا، وتعلّموا</h2>
+          <p>ناس حقيقيين بدأوا من الوصفر وتعلّموا مهارات جديدة عبر تبادل واحد بس.</p>
+        </div>
+        <div class="stories-grid">
+          <article class="story-card reveal">
+            <span class="story-mark">”</span>
+            <p class="story-text">من أول جلسة عرفت إن التعلم بالطريقة دي أمتع بكتير. تعلّمت React من محمد خلال أسبوعين، وعلّمته تصميم واجهات.</p>
+            <div class="story-author">
+              <div class="avatar avatar-1">س</div>
+              <div><strong>سارة الأحمد</strong><small>هندسة البرمجيات</small></div>
+              <span class="rating">★ 4.9</span>
+            </div>
+          </article>
+          <article class="story-card reveal">
+            <span class="story-mark">”</span>
+            <p class="story-text">تبادلت التصميم مع لينا مقابل الإنجليزية. تقييمي تحسّن ووصلت لمستوى أحسن، وكسبت صديقة دراسة كمان.</p>
+            <div class="story-author">
+              <div class="avatar avatar-2">م</div>
+              <div><strong>محمد الخليل</strong><small>الطب</small></div>
+              <span class="rating">★ 5.0</span>
+            </div>
+          </article>
+          <article class="story-card reveal">
+            <span class="story-mark">”</span>
+            <p class="story-text">المنصة خلّتني أتعرّف على زملاء من تخصصات مختلفة. كل جلسة بكون في شي جديد، سواء مهارة أو صداقة.</p>
+            <div class="story-author">
+              <div class="avatar avatar-3">ن</div>
+              <div><strong>نور فهد</strong><small>علوم البيانات</small></div>
+              <span class="rating">★ 4.8</span>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= FAQ ================= -->
+    <section class="section section-alt" id="faq">
+      <div class="container">
+        <div class="section-head reveal">
+          <span class="eyebrow">الأسئلة الشائعة</span>
+          <h2>كل اللي بتحب تعرفه</h2>
+          <p>إجابات مباشرة عن أكثر الأسئلة اللي بتجي.</p>
+        </div>
+        <div class="faq-list reveal">
+          <details class="faq-item">
+            <summary>كيف ببدأ أول تبادل مهارة؟<button class="faq-toggle" type="button" aria-hidden="true"></button></summary>
+            <p>سجّل حسابك، أضف المهارة اللي بتقدر تعلّمها والمهارة اللي بدك تتعلمها، وبعدين اختار زميل من قائمة التطابقات وأرسل له طلب تبادل.</p>
+          </details>
+          <details class="faq-item">
+            <summary>هل الخدمة مجانية؟<button class="faq-toggle" type="button" aria-hidden="true"></button></summary>
+            <p>أيوا، Skillora مجانية تماماً للطلاب. الفكرة إنك بتعلّم مقابل إنك تعلّم، من غير أي رسوم.</p>
+          </details>
+          <details class="faq-item">
+            <summary>كيف منحدد وقت الجلسة؟<button class="faq-toggle" type="button" aria-hidden="true"></button></summary>
+            <p>بعد قبول الطلب، الطرفين بيتفقوا على وقت مناسب عبر المحادثة أو تحديد موعد في لوحة التبادل. السهل إنك بتختار الوقت اللي براحتك.</p>
+          </details>
+          <details class="faq-item">
+            <summary>ماذا لو ما التزم الطالب بالتبادل؟<button class="faq-toggle" type="button" aria-hidden="true"></button></summary>
+            <p>بتقدر تلغي الطلب أو تبلغ الإدارة عن المشكلة. لوحة الإدارة بتراقب النشاط وبتقدر تعطّل الحسابات المخالفة.</p>
+          </details>
+          <details class="faq-item">
+            <summary>كيف بحذف حسابي أو أبلّغ عن مشكلة؟<button class="faq-toggle" type="button" aria-hidden="true"></button></summary>
+            <p>تواصل معنا عبر البريد hello@skillora.edu أو من صفحة المساعدة، وفريق الإدارة هيجيب على طلبك خلال 24 ساعة.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= CTA ================= -->
+    <section class="section" id="cta">
+      <div class="container">
+        <div class="cta reveal">
+          <div>
+            <h2>جاهز تبادل المهارة؟</h2>
+            <p>سجّل حسابك مجاناً، اعرض مهارتك، وابدأ أول جلسة تعلم سواً.</p>
+          </div>
+          <button type="button" class="btn btn-light btn-lg" data-open-auth="signup">سجّل كطالب</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="footer">
+    <div class="container footer-inner">
+      <div class="footer-brand">
+        <a href="#home" class="logo logo-footer">
+          <span class="logo-mark">⚡</span>
+          <span class="logo-text">Skill<em>ora</em></span>
+        </a>
+        <p>منصة تبادل المهارات بين الطلاب — تعلم مجاني، وعلّم بمهارة تمتلكها.</p>
+      </div>
+      <div class="footer-col">
+        <h4>روابط</h4>
+        <a href="#home">الرئيسية</a>
+        <a href="#how">كيف تعمل</a>
+        <a href="#skills">المهارات</a>
+        <a href="#students">الطلاب</a>
+        <a href="#stories">قصص النجاح</a>
+        <a href="#faq">الأسئلة الشائعة</a>
+      </div>
+      <div class="footer-col">
+        <h4>المنصة</h4>
+        <a href="#students">الطلاب</a>
+        <a href="#cta">ابدأ الآن</a>
+        <a href="mailto:hello@skillora.edu">تواصل معنا</a>
+      </div>
+      <div class="footer-col">
+        <h4>للطلاب</h4>
+        <a href="#how">كيف تعمل الجلسات؟</a>
+        <a href="#how">شروط التبادل</a>
+        <a href="#cta">الأسئلة الشائعة</a>
+      </div>
+    </div>
+    <div class="container footer-bottom">
+      <p>© 2026 Skillora — جميع الحقوق محفوظة</p>
+    </div>
+  </footer>
+
+  <!-- ================= AUTH ================= -->
+  <div class="modal" id="authModal" role="dialog" aria-modal="true" aria-labelledby="authTitle" hidden>
+    <div class="modal-backdrop" data-close-modal></div>
+    <div class="auth-card">
+      <button class="modal-close" type="button" data-close-modal aria-label="إغلاق">×</button>
+      <div class="auth-brand"><span class="logo-mark">⚡</span><strong>Skillora</strong></div>
+      <h2 id="authTitle">إنشاء حساب جديد</h2>
+      <p class="modal-lead" id="authLead">ابدأ رحلتك في تبادل المهارات</p>
+      <form id="authForm">
+        <label class="field" id="nameField">الاسم الكامل
+          <input name="name" type="text" placeholder="مثال: سارة الأحمد" required>
+        </label>
+        <label class="field">البريد الجامعي
+          <input name="email" type="email" placeholder="student@university.edu" required>
+        </label>
+        <label class="field">كلمة المرور
+          <input name="password" type="password" minlength="6" placeholder="6 أحرف على الأقل" required>
+        </label>
+        <button class="btn btn-primary auth-submit" type="submit">إنشاء الحساب</button>
+      </form>
+      <div class="auth-divider"><span>أو</span></div>
+      <button class="google-signin-btn" id="googleSignInBtn" type="button">
+        <span class="google-g">G</span>
+        المتابعة بحساب Google
+      </button>
+      <p class="auth-switch"><span id="authSwitchText">لديك حساب؟</span> <button type="button" id="authSwitch">تسجيل الدخول</button></p>
+    </div>
+  </div>
+
+  <!-- ================= STUDENT APP ================= -->
+  <div class="app-modal" id="appModal" role="dialog" aria-modal="true" aria-labelledby="appTitle" hidden>
+    <div class="modal-backdrop" data-close-app></div>
+    <div class="app-shell">
+      <aside class="app-sidebar">
+        <div class="app-logo"><span class="logo-mark">⚡</span><strong>Skillora</strong></div>
+        <nav class="app-nav" aria-label="قائمة المنصة">
+          <button class="active" type="button" data-view="dashboard"><span>⌂</span> لوحة التحكم</button>
+          <button type="button" data-view="explore"><span>⌕</span> استكشف المهارات</button>
+          <button type="button" data-view="requests"><span>↔</span> طلبات التبادل <b id="requestBadge">6</b></button>
+          <button type="button" data-view="exchanges"><span>✓</span> تبادلاتي</button>
+          <button type="button" data-view="profile"><span>○</span> ملفي الشخصي</button>
+          <button type="button" data-view="admin"><span>⚙</span> لوحة الإدارة</button>
+        </nav>
+        <button class="app-close" type="button" data-close-app>← العودة للموقع</button>
+      </aside>
+
+      <main class="app-content">
+        <header class="app-header">
+          <div>
+            <p id="appGreeting">مساء الخير</p>
+            <h2 id="appTitle">لوحة التحكم</h2>
+          </div>
+          <div class="app-user">
+            <button class="notification-btn" type="button" aria-label="الإشعارات">🔔<span></span></button>
+            <div class="app-avatar">س</div>
+          </div>
+        </header>
+
+        <section class="app-view active" id="view-dashboard">
+          <div class="welcome-banner">
+            <div><span class="welcome-tag">رحلة التعلم مستمرة</span><h3>مرحباً سارة 👋</h3><p>لديك 3 طلبات تبادل وطلبان قادمان هذا الأسبوع.</p></div>
+            <button type="button" class="btn btn-light" data-view-link="explore">استكشف زملاء جدد</button>
+          </div>
+          <div class="metric-grid">
+            <article><span class="metric-icon purple">↗</span><div><strong>14</strong><p>تبادل مكتمل</p></div></article>
+            <article><span class="metric-icon blue">↔</span><div><strong>3</strong><p>طلبات جديدة</p></div></article>
+            <article><span class="metric-icon orange">★</span><div><strong>4.9</strong><p>تقييمك</p></div></article>
+            <article><span class="metric-icon green">✓</span><div><strong>92%</strong><p>نسبة الإنجاز</p></div></article>
+          </div>
+          <div class="app-grid">
+            <article class="app-panel">
+              <div class="panel-heading"><h3>اقتراحات لك</h3><button type="button" data-view-link="explore">عرض الكل</button></div>
+              <div class="match-list" id="matchList"></div>
+            </article>
+            <article class="app-panel">
+              <div class="panel-heading"><h3>نشاط التبادل</h3><button type="button" data-view-link="exchanges">عرض الكل</button></div>
+              <div class="activity-list">
+                <div><span class="activity-dot purple">✓</span><p><strong>اكتمل تبادل React</strong><small>منذ ساعتين</small></p></div>
+                <div><span class="activity-dot blue">↔</span><p><strong>طلب جديد من محمد</strong><small>منذ 5 ساعات</small></p></div>
+                <div><span class="activity-dot green">★</span><p><strong>وصلت تقييم 5 نجوم</strong><small>أمس</small></p></div>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <section class="app-view" id="view-explore">
+          <div class="panel-toolbar">
+            <label class="app-search">⌕<input id="appSkillSearch" type="search" placeholder="ابحث باسم المهارة أو الطالب"></label>
+            <div class="filter-row">
+              <select id="categoryFilter" aria-label="تصنيف المهارة"><option value="">جميع التصنيفات</option><option>برمجة</option><option>تصميم</option><option>ذكاء اصطناعي</option><option>لغات</option><option>تصوير</option><option>موسيقى</option><option>قانون</option><option>محتوى</option><option>بيانات</option><option>صحة</option><option>كتابة</option><option>أمن</option></select>
+              <select id="ratingFilter" aria-label="الحد الأدنى للتقييم"><option value="0">أي تقييم</option><option value="4.8">4.8+</option><option value="4.9">4.9+</option><option value="5">5.0</option></select>
+              <select id="sortMatches" aria-label="ترتيب النتائج"><option value="default">الترتيب الافتراضي</option><option value="rating">الأعلى تقييماً</option><option value="name">الاسم</option></select>
+            </div>
+          </div>
+          <p class="explore-count" id="exploreCount"></p>
+          <div class="student-match-grid" id="studentMatchGrid"></div>
+        </section>
+
+        <section class="app-view" id="view-requests">
+          <div class="tabs"><button class="active" type="button" data-request-tab="received">الواردة <span>6</span></button><button type="button" data-request-tab="sent">المرسلة <span>4</span></button></div>
+          <div class="request-list" id="requestList"></div>
+        </section>
+
+        <section class="app-view" id="view-exchanges">
+          <div class="tabs"><button class="active" type="button" data-exchange-tab="active">النشطة <span>4</span></button><button type="button" data-exchange-tab="completed">المكتملة <span>5</span></button></div>
+          <div class="exchange-list" id="exchangeList"></div>
+        </section>
+
+        <section class="app-view" id="view-profile">
+          <div class="profile-layout">
+            <article class="profile-card">
+              <div class="profile-cover"></div>
+              <div class="profile-avatar" id="profileAvatar">س</div>
+              <h3 id="profileName">سارة الأحمد</h3><p id="profileMajor">التخصص: هندسة برمجيات</p>
+              <div class="profile-rating" id="profileRating">★ 4.9 <span>(14 مراجعة)</span></div>
+              <p class="profile-bio" id="profileBio">مصممة منتجات مهتمة ببناء تجارب مستخدم بسيطة ومدربة على مبادئ Figma والتصميم التفاعلي.</p>
+            </article>
+            <article class="app-panel profile-skills">
+              <div class="panel-heading"><h3>مهاراتي</h3><button type="button" id="addSkillBtn">+ إضافة مهارة</button></div>
+              <h4>أستطيع تعليمها</h4><div class="profile-tags" id="teachSkills"></div>
+              <h4>أريد تعلمها</h4><div class="profile-tags" id="learnSkills"></div>
+              <form class="skill-form" id="skillForm" hidden><select id="skillType"><option value="teach">أستطيع تعليمها</option><option value="learn">أريد تعلمها</option></select><input id="skillName" placeholder="اسم المهارة"><button class="btn btn-primary btn-sm" type="submit">حفظ</button></form>
+            </article>
+          </div>
+        </section>
+
+        <section class="app-view" id="view-admin">
+          <div class="metric-grid admin-metrics">
+            <article><span class="metric-icon purple">○</span><div><strong>2,800</strong><p>طالب مسجل</p></div></article>
+            <article><span class="metric-icon blue">⌘</span><div><strong>45</strong><p>مهارة نشطة</p></div></article>
+            <article><span class="metric-icon orange">↔</span><div><strong>126</strong><p>طلب تبادل</p></div></article>
+            <article><span class="metric-icon green">★</span><div><strong>4.8</strong><p>متوسط التقييمات</p></div></article>
+          </div>
+          <article class="app-panel admin-table">
+            <div class="panel-heading"><h3 id="adminTableTitle">إدارة المستخدمين</h3><button type="button" id="exportBtn">تصدير التقرير</button></div>
+            <div class="tabs admin-tabs">
+              <button class="active" type="button" data-admin-tab="users">المستخدمون</button>
+              <button type="button" data-admin-tab="skills">المهارات</button>
+              <button type="button" data-admin-tab="requests">الطلبات</button>
+              <button type="button" data-admin-tab="activity">سجل النشاط</button>
+            </div>
+            <div id="adminUsersPanel">
+              <div class="table-wrap"><table><thead><tr><th>المستخدم</th><th>التخصص</th><th>الحالة</th><th>التبادلات</th><th>إجراء</th></tr></thead><tbody id="adminTable"></tbody></table></div>
+            </div>
+            <div id="adminSkillsPanel" hidden>
+              <form class="admin-add-form" id="adminSkillForm">
+                <input id="adminSkillName" required placeholder="اسم المهارة">
+                <select id="adminSkillCategory"><option>برمجة</option><option>تصميم</option><option>ذكاء اصطناعي</option><option>لغات</option><option>تصوير</option><option>رياضيات</option><option>موسيقى</option></select>
+                <button class="btn btn-primary btn-sm" type="submit">إضافة مهارة</button>
+              </form>
+              <div class="table-wrap"><table><thead><tr><th>المهارة</th><th>التصنيف</th><th>الطلاب</th><th>الحالة</th><th>إجراء</th></tr></thead><tbody id="adminSkillTable"></tbody></table></div>
+            </div>
+            <div id="adminRequestsPanel" hidden>
+              <div class="table-wrap"><table><thead><tr><th>المرسل</th><th>المستقبل</th><th>المهارة</th><th>الحالة</th><th>إجراء</th></tr></thead><tbody id="adminRequestTable"></tbody></table></div>
+            </div>
+            <div id="adminActivityPanel" hidden>
+              <div class="activity-list" id="adminActivityList"></div>
+            </div>
+          </article>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <!-- ================= EXCHANGE & REVIEW ================= -->
+  <div class="modal" id="exchangeModal" role="dialog" aria-modal="true" hidden>
+    <div class="modal-backdrop" data-close-exchange></div>
+    <div class="small-modal">
+      <button class="modal-close" type="button" data-close-exchange>×</button>
+      <h2>إرسال طلب تبادل</h2><p id="exchangeTarget">اختر مهارة لبدء تبادل معرفي.</p>
+      <form id="exchangeForm">
+        <label class="field">مهارة تعلمها منك
+          <select id="offerSkill"><option>تصميم UI/UX</option><option>برمجة React</option><option>تصوير فوتوغرافي</option><option>لغة إنجليزية</option></select>
+        </label>
+        <label class="field">مهارة تريد تعلمها
+          <input id="wantSkill" required placeholder="مثال: تحليل بيانات">
+        </label>
+        <button class="btn btn-primary auth-submit" type="submit">إرسال الطلب</button>
+      </form>
+    </div>
+  </div>
+
+  <div class="modal" id="reviewModal" role="dialog" aria-modal="true" hidden>
+    <div class="modal-backdrop" data-close-review></div>
+    <div class="small-modal">
+      <button class="modal-close" type="button" data-close-review>×</button>
+      <h2>تقييم تجربة التبادل</h2>
+      <form id="reviewForm">
+        <div class="star-rating" id="starRating" aria-label="التقييم"><button type="button" data-rating="1">★</button><button type="button" data-rating="2">★</button><button type="button" data-rating="3">★</button><button type="button" data-rating="4">★</button><button type="button" data-rating="5">★</button></div>
+        <label class="field">تعليقك
+          <textarea id="reviewComment" rows="4" required placeholder="شارك تجربتك مع الطالب"></textarea>
+        </label>
+        <button class="btn btn-primary auth-submit" type="submit">حفظ التقييم</button>
+      </form>
+    </div>
+  </div>
+
+  <button class="back-to-top" id="backToTop" type="button" aria-label="العودة للأعلى">↑</button>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
