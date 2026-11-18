@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: skillora
+    env: docker
+    dockerfilePath: ./Skillora.Mvc/Dockerfile
+    dockerContext: ./Skillora.Mvc
+    plan: free
+    envVars:
+      - key: ASPNETCORE_ENVIRONMENT
+        value: Production
+      - key: ConnectionStrings__SkilloraDatabase
+        value: Data Source=skillora.db
+    healthCheckPath: /
