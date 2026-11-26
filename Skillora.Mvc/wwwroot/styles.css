@@ -507,6 +507,7 @@ section { scroll-margin-top: 90px; }
 .auth-card h2 { margin-top: 24px; font-size: 1.9rem; font-weight: 900; }
 .modal-lead { color: var(--muted); margin-bottom: 20px; }
 .field { display: grid; gap: 8px; margin-bottom: 14px; font: 700 0.92rem var(--body); }
+.field[hidden] { display: none; }
 .field input, .field select, .field textarea {
   width: 100%;
   min-height: 48px;

@@ -110,7 +110,9 @@ function openAuth(mode = 'signup') {
   authMode = mode;
   document.getElementById('authTitle').textContent = mode === 'signup' ? 'إنشاء حساب جديد' : 'تسجيل الدخول';
   document.getElementById('authLead').textContent = mode === 'signup' ? 'ابدأ رحلتك في تبادل المهارات' : 'أهلاً بعودتك إلى Skillora';
-  document.getElementById('nameField').hidden = mode === 'login';
+  const nameField = document.getElementById('nameField');
+  nameField.hidden = mode === 'login';
+  nameField.querySelector('input').required = mode === 'signup';
   document.querySelector('.auth-submit').textContent = mode === 'signup' ? 'إنشاء الحساب' : 'تسجيل الدخول';
   document.getElementById('authSwitchText').textContent = mode === 'signup' ? 'لديك حساب؟' : 'ليس لديك حساب؟';
   document.getElementById('authSwitch').textContent = mode === 'signup' ? 'تسجيل الدخول' : 'إنشاء حساب';
@@ -326,11 +328,17 @@ globalResults?.addEventListener('click', (event) => {
 });
 
 const appModal = document.getElementById('appModal');
+function showUserName(fullName) {
+  const name = (fullName || '').trim();
+  if (!name) return;
+  document.querySelector('.app-avatar').textContent = name.charAt(0);
+  const welcome = document.querySelector('.welcome-banner h3');
+  if (welcome) welcome.textContent = `مرحباً ${name.split(/\s+/)[0]} 👋`;
+}
 function openApp() {
   appModal.hidden = false;
   document.body.style.overflow = 'hidden';
-  const savedName = localStorage.getItem('skillora_user');
-  if (savedName) document.querySelector('.app-avatar').textContent = savedName.trim().charAt(0);
+  showUserName(localStorage.getItem('skillora_user'));
 }
 function closeApp() { appModal.hidden = true; document.body.style.overflow = ''; }
 document.querySelectorAll('[data-open-app]').forEach((button) => button.addEventListener('click', openApp));
@@ -343,7 +351,7 @@ async function loadCurrentUser() {
     const user = await response.json();
     localStorage.setItem('skillora_user', user.name);
     localStorage.setItem('skillora_user_id', String(user.id));
-    document.querySelector('.app-avatar').textContent = user.name.trim().charAt(0);
+    showUserName(user.name);
   } catch {
     // The landing page can remain usable when no session is active.
   }
@@ -485,6 +493,7 @@ async function loadMySkills() {
 document.getElementById('addSkillBtn')?.addEventListener('click', () => { document.getElementById('skillForm').hidden = false; });
 document.getElementById('skillForm')?.addEventListener('submit', (event) => {
   event.preventDefault();
+  const form = event.currentTarget;
   const name = document.getElementById('skillName').value.trim();
   if (!name) return;
   const skillType = document.getElementById('skillType').value === 'teach' ? 'Teach' : 'Learn';
@@ -504,8 +513,8 @@ document.getElementById('skillForm')?.addEventListener('submit', (event) => {
       store.write('teachSkills', teachSkills);
       store.write('learnSkills', learnSkills);
       renderProfileSkills();
-      event.currentTarget.reset();
-      event.currentTarget.hidden = true;
+      form.reset();
+      form.hidden = true;
       showToast('تمت إضافة المهارة وحفظها في قاعدة البيانات');
     })
     .catch((error) => showToast(error.message));
@@ -616,7 +625,7 @@ document.getElementById('reviewForm')?.addEventListener('submit', (event) => {
       reviewModal.hidden = true;
       document.body.style.overflow = '';
       showToast(`تم حفظ تقييمك بـ ${selectedRating} نجوم في قاعدة البيانات`);
-      event.currentTarget.reset();
+      event.target.reset();
     })
     .catch((error) => showToast(error.message));
 });
@@ -779,7 +788,7 @@ document.getElementById('adminSkillForm')?.addEventListener('submit', (event) =>
       store.write('adminActivity', adminActivity);
       renderAdminSkills();
       renderAdminActivity();
-      event.currentTarget.reset();
+      event.target.reset();
       showToast('تمت إضافة المهارة وحفظها في قاعدة البيانات');
     })
     .catch((error) => showToast(error.message));
