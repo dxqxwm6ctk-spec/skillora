@@ -12,7 +12,7 @@ namespace Skillora.Mvc.Controllers.Api;
 
 [ApiController]
 [Route("api/auth")]
-public class AuthController(SkilloraDbContext db) : ControllerBase
+public class AuthController(SkilloraDbContext db, IConfiguration configuration) : ControllerBase
 {
     [HttpPost("google")]
     public async Task<IActionResult> Google([FromBody] GoogleLoginRequest request)
@@ -52,6 +52,9 @@ public class AuthController(SkilloraDbContext db) : ControllerBase
             }
             if (!user.IsActive)
                 return Unauthorized(new { message = "تم تعطيل حساب المستخدم" });
+            // Google has verified this email, so a configured admin email can be trusted here.
+            if (user.Role != "Admin" && AdminEmails.From(configuration).Contains(normalizedEmail))
+                user.Role = "Admin";
 
             db.ActivityLogs.Add(new ActivityLog
             {

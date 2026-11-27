@@ -31,6 +31,7 @@ public class RequestsController(SkilloraDbContext db) : ControllerBase
             query = query.Where(request => request.SenderId == me || request.ReceiverId == me);
         }
 
+        var caller = CurrentUserId;
         var results = await query
             .OrderByDescending(request => request.CreatedAt)
             .Select(request => new ExchangeRequestDto(
@@ -41,7 +42,8 @@ public class RequestsController(SkilloraDbContext db) : ControllerBase
                 new PersonDto(request.SenderId, request.Sender!.Name),
                 new PersonDto(request.ReceiverId, request.Receiver!.Name),
                 new SkillDto(request.OfferedSkillId, request.OfferedSkill!.SkillName),
-                new SkillDto(request.RequestedSkillId, request.RequestedSkill!.SkillName)))
+                new SkillDto(request.RequestedSkillId, request.RequestedSkill!.SkillName),
+                db.Reviews.Any(review => review.RequestId == request.Id && review.ReviewerId == caller)))
             .ToListAsync();
         return Ok(results);
     }
@@ -140,5 +142,5 @@ public class RequestsController(SkilloraDbContext db) : ControllerBase
     public record PersonDto(int Id, string Name);
     public record SkillDto(int Id, string SkillName);
     public record ExchangeRequestDto(int Id, string Status, DateTime CreatedAt, DateTime UpdatedAt,
-        PersonDto Sender, PersonDto Receiver, SkillDto OfferedSkill, SkillDto RequestedSkill);
+        PersonDto Sender, PersonDto Receiver, SkillDto OfferedSkill, SkillDto RequestedSkill, bool ReviewedByMe);
 }

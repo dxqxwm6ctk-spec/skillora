@@ -42,6 +42,20 @@ using (var scope = app.Services.CreateScope())
                 new Skillora.Mvc.Models.Skill { SkillName = "English", Category = "لغات" });
             await db.SaveChangesAsync();
         }
+
+        var adminEmails = AdminEmails.From(app.Configuration);
+        if (adminEmails.Count > 0)
+        {
+            var toPromote = await db.Users
+                .Where(user => adminEmails.Contains(user.Email) && user.Role != "Admin")
+                .ToListAsync();
+            toPromote.ForEach(user => user.Role = "Admin");
+            if (toPromote.Count > 0)
+            {
+                await db.SaveChangesAsync();
+                app.Logger.LogInformation("Promoted {Count} configured admin account(s).", toPromote.Count);
+            }
+        }
     }
     catch (Exception exception)
     {
