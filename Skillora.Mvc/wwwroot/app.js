@@ -33,6 +33,11 @@ const store = {
   }
 };
 
+// Names and skills now come from other users, so escape them before using innerHTML.
+function escapeHtml(value) {
+  return String(value ?? '').replace(/[&<>"']/g, (ch) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch]));
+}
+
 const revealObserver = new IntersectionObserver((entries) => {
   entries.forEach((entry) => {
     if (entry.isIntersecting) {
@@ -110,7 +115,9 @@ function openAuth(mode = 'signup') {
   authMode = mode;
   document.getElementById('authTitle').textContent = mode === 'signup' ? 'إنشاء حساب جديد' : 'تسجيل الدخول';
   document.getElementById('authLead').textContent = mode === 'signup' ? 'ابدأ رحلتك في تبادل المهارات' : 'أهلاً بعودتك إلى Skillora';
-  document.getElementById('nameField').hidden = mode === 'login';
+  const nameField = document.getElementById('nameField');
+  nameField.hidden = mode === 'login';
+  nameField.querySelector('input').required = mode === 'signup';
   document.querySelector('.auth-submit').textContent = mode === 'signup' ? 'إنشاء الحساب' : 'تسجيل الدخول';
   document.getElementById('authSwitchText').textContent = mode === 'signup' ? 'لديك حساب؟' : 'ليس لديك حساب؟';
   document.getElementById('authSwitch').textContent = mode === 'signup' ? 'تسجيل الدخول' : 'إنشاء حساب';
@@ -144,8 +151,7 @@ authForm?.addEventListener('submit', (event) => {
       return body;
     })
     .then((user) => {
-      localStorage.setItem('skillora_user', user.name);
-      localStorage.setItem('skillora_user_id', String(user.id));
+      onSignedIn(user);
       authModal.hidden = true;
       document.body.style.overflow = '';
       openApp();
@@ -179,8 +185,7 @@ document.getElementById('googleSignInBtn')?.addEventListener('click', async () =
     });
     const body = await response.json().catch(() => ({}));
     if (!response.ok) throw new Error(body.message || 'تعذر تسجيل الدخول بحساب Google');
-    localStorage.setItem('skillora_user', body.name);
-    localStorage.setItem('skillora_user_id', String(body.id));
+    onSignedIn(body);
     authModal.hidden = true;
     document.body.style.overflow = '';
     openApp();
@@ -326,29 +331,60 @@ globalResults?.addEventListener('click', (event) => {
 });
 
 const appModal = document.getElementById('appModal');
+function showUserName(fullName) {
+  const name = (fullName || '').trim();
+  if (!name) return;
+  document.querySelector('.app-avatar').textContent = name.charAt(0);
+  const welcome = document.querySelector('.welcome-banner h3');
+  if (welcome) welcome.textContent = `مرحباً ${name.split(/\s+/)[0]} 👋`;
+}
 function openApp() {
   appModal.hidden = false;
   document.body.style.overflow = 'hidden';
-  const savedName = localStorage.getItem('skillora_user');
-  if (savedName) document.querySelector('.app-avatar').textContent = savedName.trim().charAt(0);
+  showUserName(localStorage.getItem('skillora_user'));
 }
 function closeApp() { appModal.hidden = true; document.body.style.overflow = ''; }
 document.querySelectorAll('[data-open-app]').forEach((button) => button.addEventListener('click', openApp));
 document.querySelectorAll('[data-close-app]').forEach((button) => button.addEventListener('click', closeApp));
 
+// The admin section is only offered to admins; the server enforces the same rule.
+function applyRole(role) {
+  const isAdmin = role === 'Admin';
+  document.querySelectorAll('[data-view="admin"]').forEach((el) => { el.hidden = !isAdmin; });
+  if (!isAdmin && document.getElementById('view-admin')?.classList.contains('active')) switchView('dashboard');
+}
+
+function onSignedIn(user) {
+  localStorage.setItem('skillora_user', user.name);
+  localStorage.setItem('skillora_user_id', String(user.id));
+  showUserName(user.name);
+  applyRole(user.role);
+  document.querySelectorAll('[data-logout]').forEach((el) => { el.hidden = false; });
+  loadExchangeData();
+  if (user.role === 'Admin') loadDatabaseUsers();
+}
+
 async function loadCurrentUser() {
   try {
     const response = await fetch('/api/auth/me', { credentials: 'include' });
-    if (!response.ok) return;
-    const user = await response.json();
-    localStorage.setItem('skillora_user', user.name);
-    localStorage.setItem('skillora_user_id', String(user.id));
-    document.querySelector('.app-avatar').textContent = user.name.trim().charAt(0);
+    if (!response.ok) {
+      localStorage.removeItem('skillora_user');
+      localStorage.removeItem('skillora_user_id');
+      return;
+    }
+    onSignedIn(await response.json());
   } catch {
     // The landing page can remain usable when no session is active.
   }
 }
 loadCurrentUser();
+
+document.querySelectorAll('[data-logout]').forEach((button) => button.addEventListener('click', async () => {
+  await fetch('/api/auth/logout', { method: 'POST', credentials: 'include' }).catch(() => {});
+  localStorage.removeItem('skillora_user');
+  localStorage.removeItem('skillora_user_id');
+  location.reload();
+}));
 
 const viewTitles = { dashboard: 'لوحة التحكم', explore: 'استكشف المهارات', requests: 'طلبات التبادل', exchanges: 'تبادلاتي', profile: 'ملفي الشخصي', admin: 'لوحة الإدارة' };
 function switchView(view) {
@@ -391,9 +427,20 @@ function syncCounts() {
   pairs.forEach(([selector, value]) => { const el = document.querySelector(selector); if (el) el.textContent = value; });
 }
 
+// When signed in, requests and exchanges come from the database (liveData = true);
+// otherwise the sample lists above are shown so the page still demonstrates the flow.
+let liveData = false;
+const emptyRow = (text) => `<p class="explore-count">${text}</p>`;
+
+function currentTab(attr, fallback) {
+  return document.querySelector(`[${attr}].active`)?.getAttribute(attr) || fallback;
+}
+
 function renderRequests(type = 'received') {
   const list = type === 'received' ? receivedRequests : sentRequests;
-  document.getElementById('requestList').innerHTML = list.map((request) => `<div class="request-row"><div class="mini-avatar">${request.name.charAt(0)}</div><div><h3>${request.name}</h3><p>${request.skill} • ${request.time}</p></div>${type === 'received' ? `<div class="row-actions"><button class="accept" type="button" data-accept="${request.name}">قبول</button><button type="button" data-reject="${request.name}">رفض</button></div>` : `<span class="status-pill pending">بانتظار الرد</span><div class="row-actions"><button type="button" data-cancel="${request.name}">إلغاء</button></div>`}</div>`).join('');
+  const key = (request) => escapeHtml(request.id ?? request.name);
+  const rows = list.map((request) => `<div class="request-row"><div class="mini-avatar">${escapeHtml(request.name.charAt(0))}</div><div><h3>${escapeHtml(request.name)}</h3><p>${escapeHtml(request.skill)} • ${escapeHtml(request.time)}</p></div>${type === 'received' ? `<div class="row-actions"><button class="accept" type="button" data-accept="${key(request)}">قبول</button><button type="button" data-reject="${key(request)}">رفض</button></div>` : `<span class="status-pill pending">بانتظار الرد</span><div class="row-actions"><button type="button" data-cancel="${key(request)}">إلغاء</button></div>`}</div>`).join('');
+  document.getElementById('requestList').innerHTML = rows || emptyRow(type === 'received' ? 'ما عندك طلبات واردة حالياً.' : 'ما أرسلت طلبات بانتظار الرد.');
 }
 renderRequests();
 document.querySelectorAll('[data-request-tab]').forEach((tab) => tab.addEventListener('click', () => {
@@ -401,22 +448,32 @@ document.querySelectorAll('[data-request-tab]').forEach((tab) => tab.addEventLis
   tab.classList.add('active');
   renderRequests(tab.dataset.requestTab);
 }));
+
+async function changeRequestStatus(id, action) {
+  const response = await fetch(`/api/requests/${id}/${action}`, { method: 'PATCH', credentials: 'include' });
+  const body = await response.json().catch(() => ({}));
+  if (!response.ok) throw new Error(body.message || 'تعذر تحديث الطلب');
+  await loadExchangeData();
+}
+
 document.getElementById('requestList')?.addEventListener('click', (event) => {
-  const accept = event.target.dataset.accept;
-  const reject = event.target.dataset.reject;
-  if (accept) {
-    receivedRequests.splice(receivedRequests.findIndex((item) => item.name === accept), 1);
+  const { accept, reject, cancel } = event.target.dataset;
+  const key = accept || reject || cancel;
+  if (!key) return;
+  if (liveData) {
+    const action = accept ? 'accept' : reject ? 'reject' : 'cancel';
+    const done = { accept: 'تم قبول الطلب، وصار في تبادلاتك النشطة', reject: 'تم رفض الطلب', cancel: 'تم إلغاء الطلب' }[action];
+    event.target.disabled = true;
+    changeRequestStatus(key, action).then(() => showToast(done)).catch((error) => { event.target.disabled = false; showToast(error.message); });
+    return;
+  }
+  if (accept || reject) {
+    receivedRequests.splice(receivedRequests.findIndex((item) => item.name === key), 1);
     store.write('receivedRequests', receivedRequests);
     renderRequests('received');
     syncCounts();
-    showToast(`تم قبول طلب ${accept}`);
-  } else if (reject) {
-    receivedRequests.splice(receivedRequests.findIndex((item) => item.name === reject), 1);
-    store.write('receivedRequests', receivedRequests);
-    renderRequests('received');
-    syncCounts();
-    showToast('تم رفض الطلب');
-  } else if (event.target.dataset.cancel) showToast('تم إلغاء الطلب');
+    showToast(accept ? `تم قبول طلب ${key}` : 'تم رفض الطلب');
+  } else showToast('تم إلغاء الطلب');
 });
 
 const activeExchanges = store.read('activeExchanges', [
@@ -434,7 +491,14 @@ const completedExchanges = store.read('completedExchanges', [
 ]);
 function renderExchanges(type = 'active') {
   const list = type === 'active' ? activeExchanges : completedExchanges;
-  document.getElementById('exchangeList').innerHTML = list.map((exchange) => `<div class="exchange-row"><div class="mini-avatar">${exchange.name.charAt(0)}</div><div><h3>${exchange.name}</h3><p>${exchange.skill}</p></div><span class="status-pill ${type === 'completed' ? 'completed' : ''}">${exchange.status}</span><div class="row-actions">${type === 'active' ? '<button type="button">تفاصيل</button><button type="button">إكمال</button>' : '<button type="button" data-review>تقييم</button>'}</div></div>`).join('');
+  const key = (exchange) => escapeHtml(exchange.id ?? exchange.name);
+  const actions = (exchange) => {
+    if (type === 'active') return `<button type="button" data-complete="${key(exchange)}">إكمال</button>`;
+    if (exchange.reviewed) return '<span class="status-pill">تم التقييم</span>';
+    return `<button type="button" data-review="${key(exchange)}">تقييم</button>`;
+  };
+  const rows = list.map((exchange) => `<div class="exchange-row"><div class="mini-avatar">${escapeHtml(exchange.name.charAt(0))}</div><div><h3>${escapeHtml(exchange.name)}</h3><p>${escapeHtml(exchange.skill)}</p></div><span class="status-pill ${type === 'completed' ? 'completed' : ''}">${escapeHtml(exchange.status)}</span><div class="row-actions">${actions(exchange)}</div></div>`).join('');
+  document.getElementById('exchangeList').innerHTML = rows || emptyRow(type === 'active' ? 'ما عندك تبادلات نشطة. اقبل طلب أو أرسل واحد.' : 'ما في تبادلات مكتملة بعد.');
 }
 renderExchanges();
 syncCounts();
@@ -444,12 +508,18 @@ document.querySelectorAll('[data-exchange-tab]').forEach((tab) => tab.addEventLi
   renderExchanges(tab.dataset.exchangeTab);
 }));
 document.getElementById('exchangeList')?.addEventListener('click', (event) => {
-  if (event.target.dataset.review !== undefined) {
-    openReview();
-  } else if (event.target.textContent === 'إكمال') {
-    const row = event.target.closest('.exchange-row');
-    const name = row.querySelector('h3').textContent;
-    const index = activeExchanges.findIndex((exchange) => exchange.name === name);
+  const { review, complete } = event.target.dataset;
+  if (review !== undefined) {
+    openReview(liveData ? Number(review) : null);
+  } else if (complete) {
+    if (liveData) {
+      event.target.disabled = true;
+      changeRequestStatus(complete, 'complete')
+        .then(() => showToast('تم إكمال التبادل، تقدر تقيّمه الحين'))
+        .catch((error) => { event.target.disabled = false; showToast(error.message); });
+      return;
+    }
+    const index = activeExchanges.findIndex((exchange) => exchange.name === complete);
     if (index >= 0) {
       const exchange = activeExchanges.splice(index, 1)[0];
       exchange.status = 'مكتمل';
@@ -457,10 +527,41 @@ document.getElementById('exchangeList')?.addEventListener('click', (event) => {
       store.write('activeExchanges', activeExchanges);
       store.write('completedExchanges', completedExchanges);
       renderExchanges('active');
-      showToast(`تم إكمال تبادل ${name}`);
+      syncCounts();
+      showToast(`تم إكمال تبادل ${complete}`);
     }
   }
 });
+
+async function loadExchangeData() {
+  const me = Number(localStorage.getItem('skillora_user_id'));
+  let all;
+  try {
+    const response = await fetch('/api/requests', { credentials: 'include' });
+    if (!response.ok) return;
+    all = await response.json();
+  } catch {
+    return;
+  }
+  liveData = true;
+  const other = (r) => (r.sender.id === me ? r.receiver : r.sender);
+  const skillLabel = (r) => `${r.offeredSkill.skillName} مقابل ${r.requestedSkill.skillName}`;
+  const when = (iso) => new Date(/Z$/.test(iso) ? iso : `${iso}Z`).toLocaleDateString('ar', { day: 'numeric', month: 'long' });
+  const fill = (target, items) => target.splice(0, target.length, ...items);
+  fill(receivedRequests, all.filter((r) => r.receiver.id === me && r.status === 'Pending')
+    .map((r) => ({ id: r.id, name: r.sender.name, skill: skillLabel(r), time: when(r.createdAt) })));
+  fill(sentRequests, all.filter((r) => r.sender.id === me && r.status === 'Pending')
+    .map((r) => ({ id: r.id, name: r.receiver.name, skill: skillLabel(r), time: when(r.createdAt) })));
+  // Admins receive everyone's requests; "my exchanges" only lists the caller's own.
+  const mine = (r) => r.sender.id === me || r.receiver.id === me;
+  fill(activeExchanges, all.filter((r) => mine(r) && r.status === 'Accepted')
+    .map((r) => ({ id: r.id, name: other(r).name, skill: skillLabel(r), status: 'قيد التنفيذ' })));
+  fill(completedExchanges, all.filter((r) => mine(r) && r.status === 'Completed')
+    .map((r) => ({ id: r.id, name: other(r).name, skill: skillLabel(r), status: 'مكتمل', reviewed: r.reviewedByMe })));
+  renderRequests(currentTab('data-request-tab', 'received'));
+  renderExchanges(currentTab('data-exchange-tab', 'active'));
+  syncCounts();
+}
 
 const teachSkills = store.read('teachSkills', ['UI/UX Design', 'Figma', 'HTML & CSS']);
 const learnSkills = store.read('learnSkills', ['React', 'Machine Learning']);
@@ -485,6 +586,7 @@ async function loadMySkills() {
 document.getElementById('addSkillBtn')?.addEventListener('click', () => { document.getElementById('skillForm').hidden = false; });
 document.getElementById('skillForm')?.addEventListener('submit', (event) => {
   event.preventDefault();
+  const form = event.currentTarget;
   const name = document.getElementById('skillName').value.trim();
   if (!name) return;
   const skillType = document.getElementById('skillType').value === 'teach' ? 'Teach' : 'Learn';
@@ -504,8 +606,8 @@ document.getElementById('skillForm')?.addEventListener('submit', (event) => {
       store.write('teachSkills', teachSkills);
       store.write('learnSkills', learnSkills);
       renderProfileSkills();
-      event.currentTarget.reset();
-      event.currentTarget.hidden = true;
+      form.reset();
+      form.hidden = true;
       showToast('تمت إضافة المهارة وحفظها في قاعدة البيانات');
     })
     .catch((error) => showToast(error.message));
@@ -582,8 +684,12 @@ document.getElementById('exchangeForm')?.addEventListener('submit', (event) => {
     .then(() => {
       exchangeModal.hidden = true;
       document.body.style.overflow = '';
-      sentRequests.unshift({ name: target, skill: `${offered} مقابل ${wanted}`, time: 'الآن' });
-      store.write('sentRequests', sentRequests);
+      if (liveData) {
+        loadExchangeData();
+      } else {
+        sentRequests.unshift({ name: target, skill: `${offered} مقابل ${wanted}`, time: 'الآن' });
+        store.write('sentRequests', sentRequests);
+      }
       showToast('تم إرسال طلب التبادل وحفظه في قاعدة البيانات');
     })
     .catch((error) => showToast(error.message));
@@ -591,7 +697,12 @@ document.getElementById('exchangeForm')?.addEventListener('submit', (event) => {
 
 const reviewModal = document.getElementById('reviewModal');
 let selectedRating = 5;
-function openReview() { reviewModal.hidden = false; document.body.style.overflow = 'hidden'; }
+let reviewRequestId = null;
+function openReview(requestId = null) {
+  reviewRequestId = requestId;
+  reviewModal.hidden = false;
+  document.body.style.overflow = 'hidden';
+}
 document.querySelectorAll('[data-close-review]').forEach((button) => button.addEventListener('click', () => { reviewModal.hidden = true; document.body.style.overflow = ''; }));
 document.querySelectorAll('#starRating button').forEach((star) => star.addEventListener('click', () => {
   selectedRating = Number(star.dataset.rating);
@@ -601,12 +712,16 @@ document.getElementById('starRating')?.querySelector('[data-rating="5"]')?.click
 document.getElementById('reviewForm')?.addEventListener('submit', (event) => {
   event.preventDefault();
   const comment = document.getElementById('reviewComment').value.trim();
-  fetch('/api/reviews', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    credentials: 'include',
-    body: JSON.stringify({ requestId: 0, reviewedUserId: 0, rating: selectedRating, comment })
-  })
+  const save = reviewRequestId === null
+    // Sample exchange (not signed in): nothing to save on the server.
+    ? Promise.resolve({ ok: true, json: async () => ({}) })
+    : fetch('/api/reviews', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
+      body: JSON.stringify({ requestId: reviewRequestId, rating: selectedRating, comment })
+    });
+  save
     .then(async (response) => {
       const body = await response.json().catch(() => ({}));
       if (!response.ok) throw new Error(body.message || 'تعذر حفظ التقييم');
@@ -615,8 +730,9 @@ document.getElementById('reviewForm')?.addEventListener('submit', (event) => {
     .then(() => {
       reviewModal.hidden = true;
       document.body.style.overflow = '';
-      showToast(`تم حفظ تقييمك بـ ${selectedRating} نجوم في قاعدة البيانات`);
-      event.currentTarget.reset();
+      showToast(reviewRequestId === null ? `شكراً، قيّمت بـ ${selectedRating} نجوم` : `تم حفظ تقييمك بـ ${selectedRating} نجوم في قاعدة البيانات`);
+      event.target.reset();
+      if (reviewRequestId !== null) loadExchangeData();
     })
     .catch((error) => showToast(error.message));
 });
@@ -654,7 +770,7 @@ async function loadDatabaseUsers() {
     // The sample records remain available when the API is unreachable.
   }
 }
-loadDatabaseUsers();
+// loadDatabaseUsers() runs from onSignedIn() for admins only.
 adminTable?.addEventListener('click', (event) => {
   const index = Number(event.target.dataset.adminAction);
   if (!Number.isNaN(index) && event.target.dataset.adminAction !== undefined) {
@@ -779,7 +895,7 @@ document.getElementById('adminSkillForm')?.addEventListener('submit', (event) =>
       store.write('adminActivity', adminActivity);
       renderAdminSkills();
       renderAdminActivity();
-      event.currentTarget.reset();
+      event.target.reset();
       showToast('تمت إضافة المهارة وحفظها في قاعدة البيانات');
     })
     .catch((error) => showToast(error.message));

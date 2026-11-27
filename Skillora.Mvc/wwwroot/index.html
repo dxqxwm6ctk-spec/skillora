@@ -5,10 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Skillora | تبادل المهارات بين الطلاب</title>
   <meta name="description" content="Skillora منصة طلابية لتبادل المهارات والتعلم بين الطلبة.">
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='24' fill='%236c5ce7'/><text x='50' y='70' font-size='54' text-anchor='middle'>⚡</text></svg>">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='50' fill='%23D4FF3A'/><path d='M30 36h40l-12-12M70 64H30l12 12' fill='none' stroke='%230D0E1A' stroke-width='9' stroke-linecap='round' stroke-linejoin='round'/></svg>">
+  <meta name="theme-color" content="#0D0E1A">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@500;700;800;900&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -17,8 +18,8 @@
   <header class="nav" id="top">
     <div class="container nav-inner">
       <a href="#home" class="logo">
-        <span class="logo-mark">⚡</span>
-        <span class="logo-text">Skill<em>ora</em></span>
+        <span class="logo-mark"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7h10l-3-3"></path><path d="M17 17H7l3 3"></path></svg></span>
+        <span class="logo-text" dir="ltr">skill<em>ora</em></span>
       </a>
       <div class="nav-search" id="navSearch">
         <svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path></svg>
@@ -43,23 +44,64 @@
   <main>
     <!-- ================= HERO ================= -->
     <section class="hero" id="home">
-      <div class="hero-blob b1"></div>
-      <div class="hero-blob b2"></div>
       <div class="container hero-inner">
-        <div class="hero-badge reveal">منصّة تبادل المهارات الطلابية</div>
-        <h1 class="reveal">تعلّم بيد شخص، <span class="grad-text">وعلّم غيرك</span> بيدك</h1>
-        <p class="hero-sub reveal">Skillora يجمع الطلاب ذوي المهارات المختلفة، ويتيح لهم تبادل المعرفة في جلسات بسيطة وعادلة. علّم ما تتقنه وتعلّم ما يهمك.</p>
-        <div class="hero-cta reveal">
-          <button type="button" class="btn btn-primary btn-lg" data-open-app>ابدأ تبادل مهاراتك</button>
-          <a href="#skills" class="btn btn-ghost btn-lg">شوف المهارات المتاحة</a>
+        <div class="hero-copy">
+          <div class="hero-badge reveal"><span class="dot"></span>للطلاب فقط · بدون رسوم · تبادل عادل</div>
+          <h1 class="reveal">بدّل مهارة.<br><span class="hero-mark">اكسب مهارة.</span></h1>
+          <p class="hero-sub reveal">ساعة منك في اللي تتقنه، مقابل ساعة من زميل في اللي تبيه. بدون دورات، بدون اشتراكات. طلاب يعلّمون طلاب.</p>
+          <div class="hero-cta reveal">
+            <button type="button" class="btn btn-primary btn-lg" data-open-app>ابدأ أول تبديل
+              <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5"></path><path d="M11 6l-6 6 6 6"></path></svg>
+            </button>
+            <a href="#how" class="btn btn-ghost btn-lg">شوف كيف تمشي</a>
+          </div>
         </div>
-        <div class="hero-chips reveal">
-          <span>💻 البرمجة</span>
-          <span>🎨 التصميم</span>
-          <span>🤖 الذكاء الاصطناعي</span>
-          <span>🎸 الموسيقى</span>
-          <span>🌍 اللغات</span>
-          <span>📷 التصوير</span>
+
+        <!-- Match playground (self-contained, see script at end of body) -->
+        <div class="playground reveal" id="playground">
+          <div class="pg-head">
+            <strong>جرّب التطابق</strong>
+            <small>اضغط واختر</small>
+          </div>
+          <div class="pg-group">
+            <p>أنا أعلّم</p>
+            <div class="pg-chips" data-pg="teach">
+              <button type="button" data-skill="py" aria-pressed="true">Python</button>
+              <button type="button" data-skill="ui" aria-pressed="false">تصميم الواجهات</button>
+              <button type="button" data-skill="en" aria-pressed="false">الإنجليزي</button>
+              <button type="button" data-skill="gt" aria-pressed="false">الجيتار</button>
+              <button type="button" data-skill="xl" aria-pressed="false">Excel</button>
+            </div>
+          </div>
+          <div class="pg-group">
+            <p>وأبي أتعلّم</p>
+            <div class="pg-chips" data-pg="learn">
+              <button type="button" data-skill="py" aria-pressed="false">Python</button>
+              <button type="button" data-skill="ui" aria-pressed="true">تصميم الواجهات</button>
+              <button type="button" data-skill="en" aria-pressed="false">الإنجليزي</button>
+              <button type="button" data-skill="gt" aria-pressed="false">الجيتار</button>
+              <button type="button" data-skill="xl" aria-pressed="false">Excel</button>
+            </div>
+          </div>
+          <div class="pg-result" aria-live="polite">
+            <div class="pg-person">
+              <span class="pg-avatar" id="pgAvatar">ي</span>
+              <div>
+                <strong id="pgName">يوسف البرو</strong>
+                <small id="pgLine">يعلّمك تصميم الواجهات · يبي يتعلّم Python</small>
+              </div>
+              <div class="pg-score"><b id="pgScore">94%</b><small>تطابق</small></div>
+            </div>
+            <div class="pg-bar"><span id="pgBar" style="width:94%"></span></div>
+            <button type="button" class="btn pg-cta" data-open-auth="signup">أرسل له طلب تبادل</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="marquee" aria-hidden="true">
+        <div class="marquee-track">
+          <span>Python</span><span>تصميم الواجهات</span><span>العود</span><span>الإنجليزي</span><span>Excel</span><span>التصوير</span><span>React</span><span>الفرنسي</span><span>الأمن السيبراني</span><span>الجيتار</span><span>Figma</span><span>الكتابة الإبداعية</span>
+          <span>Python</span><span>تصميم الواجهات</span><span>العود</span><span>الإنجليزي</span><span>Excel</span><span>التصوير</span><span>React</span><span>الفرنسي</span><span>الأمن السيبراني</span><span>الجيتار</span><span>Figma</span><span>الكتابة الإبداعية</span>
         </div>
       </div>
     </section>
@@ -86,32 +128,77 @@
       </div>
     </section>
 
+    <!-- ================= MANIFESTO ================= -->
+    <section class="manifesto">
+      <div class="container">
+        <p class="reveal">كل طالب عنده شي <span class="m-violet">يعلّمه</span>، وشي <span class="m-under">يتعلّمه</span>. إحنا بس نوصّلكم ببعض.</p>
+      </div>
+    </section>
+
+    <!-- ================= BENTO ================= -->
+    <section class="bento-section">
+      <div class="container bento">
+        <article class="bento-tile bento-match reveal">
+          <small>التطابق</small>
+          <div class="bento-pairs">
+            <div><span class="pill pill-white" dir="ltr">Python</span><span class="pill pill-swap">⇄</span><span class="pill pill-lime">تصميم الواجهات</span></div>
+            <div><span class="pill pill-white">الإنجليزي</span><span class="pill pill-swap">⇄</span><span class="pill pill-coral">الجيتار</span></div>
+          </div>
+          <div>
+            <h3>نلقى لك الشخص اللي يكمّلك</h3>
+            <p>نطابق اللي تعلّمه مع اللي يدوّر عليه غيرك، والعكس. أنت تختار، وهو يقبل.</p>
+          </div>
+        </article>
+        <article class="bento-tile bento-sessions reveal">
+          <div>
+            <small>الجلسات</small>
+            <h3>أنتم تحددون الوقت والمكان</h3>
+          </div>
+          <div class="bento-times">
+            <span>الأحد ٧:٠٠ م</span>
+            <span class="on">الثلاثاء ٦:٣٠ م</span>
+            <span>الخميس ٩:٠٠ م</span>
+          </div>
+        </article>
+        <article class="bento-tile bento-rating reveal">
+          <small>التقييمات</small>
+          <div>
+            <b aria-label="خمس نجوم">★★★★★</b>
+            <p>كل تبادل يبني سمعتك</p>
+          </div>
+        </article>
+        <article class="bento-tile bento-free reveal">
+          <small>التكلفة</small>
+          <div>
+            <b>0</b>
+            <p>ريال. وقتك هو العملة.</p>
+          </div>
+        </article>
+      </div>
+    </section>
+
     <!-- ================= HOW IT WORKS ================= -->
-    <section class="section" id="how">
+    <section class="section section-soft" id="how">
       <div class="container">
         <div class="section-head reveal">
           <span class="eyebrow">كيف تعمل</span>
-          <h2>تعلم بالتشارك، مش بالتعليم</h2>
-          <p>مفيش حد شغال معاك من غير ما تحب. هنا المهارات والمحترفين بيتبادلوا، وجميع التعليم بييجي من الطرفين.</p>
+          <h2>من التسجيل لأول جلسة،<br>ثلاث خطوات.</h2>
         </div>
         <div class="steps">
           <article class="step reveal">
-            <div class="step-num">01</div>
-            <div class="step-icon">🔍</div>
-            <h3>حدّ المهارة اللي بدك تتعلمها</h3>
-            <p>افتح قائمة المهارات المتاحة أو حدد اللي بتعرفه لو بدك تبادل مهارتك. كل المهارات مسجلة ومُصنفة.</p>
+            <div class="step-num">١</div>
+            <h3>قل وش عندك</h3>
+            <p>أضف المهارات اللي تتقنها، واللي ودّك تتعلمها. ما تأخذ دقيقة.</p>
           </article>
           <article class="step reveal">
-            <div class="step-num">02</div>
-            <div class="step-icon">🤝</div>
-            <h3>اعرض مهارتك</h3>
-            <p>سجّل المهارة اللي بتعرفها على ملفك الشخصي. هتظهر للطلاب اللي عايزين يتعلموا.</p>
+            <div class="step-num">٢</div>
+            <h3>اختر شريكك</h3>
+            <p>نعرض لك زملاء يكمّلونك، مع نسبة التطابق وتقييماتهم. أرسل طلب تبادل.</p>
           </article>
           <article class="step reveal">
-            <div class="step-num">03</div>
-            <div class="step-icon">🎓</div>
-            <h3>تعلموا سواً</h3>
-            <p>اختار جلستك مع طالب تاني، وحضّر بيدك. تتعلم مهارة جديدة، وعلّمه مهاراتك.</p>
+            <div class="step-num">٣</div>
+            <h3>بدّلوا وقيّموا</h3>
+            <p>اتفقوا على الوقت، تعلّموا، وبعدها كل واحد يقيّم الثاني.</p>
           </article>
         </div>
       </div>
@@ -635,8 +722,8 @@
       <div class="container">
         <div class="cta reveal">
           <div>
-            <h2>جاهز تبادل المهارة؟</h2>
-            <p>سجّل حسابك مجاناً، اعرض مهارتك، وابدأ أول جلسة تعلم سواً.</p>
+            <h2>جاهز<br>تبدّل؟</h2>
+            <p>دقيقتين للتسجيل، وأول اقتراحات التبادل تطلع لك فوراً.</p>
           </div>
           <button type="button" class="btn btn-light btn-lg" data-open-auth="signup">سجّل كطالب</button>
         </div>
@@ -649,8 +736,8 @@
     <div class="container footer-inner">
       <div class="footer-brand">
         <a href="#home" class="logo logo-footer">
-          <span class="logo-mark">⚡</span>
-          <span class="logo-text">Skill<em>ora</em></span>
+          <span class="logo-mark"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7h10l-3-3"></path><path d="M17 17H7l3 3"></path></svg></span>
+          <span class="logo-text" dir="ltr">skill<em>ora</em></span>
         </a>
         <p>منصة تبادل المهارات بين الطلاب — تعلم مجاني، وعلّم بمهارة تمتلكها.</p>
       </div>
@@ -722,9 +809,10 @@
           <button type="button" data-view="requests"><span>↔</span> طلبات التبادل <b id="requestBadge">6</b></button>
           <button type="button" data-view="exchanges"><span>✓</span> تبادلاتي</button>
           <button type="button" data-view="profile"><span>○</span> ملفي الشخصي</button>
-          <button type="button" data-view="admin"><span>⚙</span> لوحة الإدارة</button>
+          <button type="button" data-view="admin" hidden><span>⚙</span> لوحة الإدارة</button>
         </nav>
         <button class="app-close" type="button" data-close-app>← العودة للموقع</button>
+        <button class="app-logout" type="button" data-logout hidden>تسجيل الخروج</button>
       </aside>
 
       <main class="app-content">
@@ -883,5 +971,46 @@
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
 <script src="app.js"></script>
+<script>
+  /* Hero "match playground": pick what you teach and what you want to learn. */
+  (function () {
+    var root = document.getElementById('playground');
+    if (!root) return;
+    var labels = { py: 'Python', ui: 'تصميم الواجهات', en: 'الإنجليزي', gt: 'الجيتار', xl: 'Excel' };
+    var people = {
+      py: { name: 'نور فهد', initial: 'ن' },
+      ui: { name: 'يوسف البرو', initial: 'ي' },
+      en: { name: 'لينا حنا', initial: 'ل' },
+      gt: { name: 'ماجي الحوراني', initial: 'م' },
+      xl: { name: 'كريم زيدان', initial: 'ك' }
+    };
+    var scores = { py: 94, ui: 91, en: 88, gt: 86, xl: 90 };
+    var state = { teach: 'py', learn: 'ui' };
+    function render() {
+      ['teach', 'learn'].forEach(function (key) {
+        var other = key === 'teach' ? state.learn : state.teach;
+        root.querySelectorAll('[data-pg="' + key + '"] button').forEach(function (b) {
+          var id = b.getAttribute('data-skill');
+          b.setAttribute('aria-pressed', String(id === state[key]));
+          b.disabled = id === other;
+        });
+      });
+      var p = people[state.learn];
+      var s = scores[state.teach];
+      document.getElementById('pgAvatar').textContent = p.initial;
+      document.getElementById('pgName').textContent = p.name;
+      document.getElementById('pgLine').textContent = 'يعلّمك ' + labels[state.learn] + ' · يبي يتعلّم ' + labels[state.teach];
+      document.getElementById('pgScore').textContent = s + '%';
+      document.getElementById('pgBar').style.width = s + '%';
+    }
+    root.addEventListener('click', function (e) {
+      var b = e.target.closest('[data-skill]');
+      if (!b || b.disabled) return;
+      state[b.parentElement.getAttribute('data-pg')] = b.getAttribute('data-skill');
+      render();
+    });
+    render();
+  })();
+</script>
 </body>
 </html>
