@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Skillora.Mvc.Data;
@@ -21,14 +22,24 @@ public class SkillsController(SkilloraDbContext db) : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> Create([FromBody] Skill skill)
+    [Authorize(Roles = "Admin")]
+    public async Task<IActionResult> Create([FromBody] CreateSkillRequest request)
     {
+        if (string.IsNullOrWhiteSpace(request.SkillName))
+            return BadRequest(new { message = "اسم المهارة مطلوب" });
+        var skill = new Skill
+        {
+            SkillName = request.SkillName.Trim(),
+            Category = request.Category?.Trim() ?? string.Empty,
+            IsActive = request.IsActive ?? true
+        };
         db.Skills.Add(skill);
         await db.SaveChangesAsync();
         return Created($"/api/skills/{skill.Id}", skill);
     }
 
     [HttpPatch("{id:int}/status")]
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> SetStatus(int id, [FromBody] StatusRequest request)
     {
         var skill = await db.Skills.FindAsync(id);
@@ -38,3 +49,5 @@ public class SkillsController(SkilloraDbContext db) : ControllerBase
         return Ok(skill);
     }
 }
+
+public record CreateSkillRequest(string SkillName, string? Category, bool? IsActive);
